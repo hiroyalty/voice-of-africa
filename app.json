@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Voice of Africa",
+    "description": "The number 1 internet radio in africa, for africa and showcassing the best of Africa.",
+    "slug": "voice-of-africa",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/voa.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#adcae6"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "ca.voiceofafrica.radio",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "ca.voiceofafrica.radio",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/voa.png",
+        "backgroundColor": "#171717"
+      },
+      "permissions":[]
+    }
+  }
+}
