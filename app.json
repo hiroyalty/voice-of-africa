@@ -9,13 +9,13 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "default",
     "icon": "./assets/voa.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#adcae6"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,12 +25,12 @@
     ],
     "ios": {
       "bundleIdentifier": "ca.voiceofafrica.radio",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.4",
       "supportsTablet": true
     },
     "android": {
       "package": "ca.voiceofafrica.radio",
-      "versionCode": 1,
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/voa.png",
         "backgroundColor": "#171717"

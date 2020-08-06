@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Image, Dimensions, TouchableHighlight } from 'react-native';
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+import HeaderNavigationBar from './Components/HeaderNavigationBar';
+import AboutScreen from './Components/AboutScreen';
+import PrivacyScreen from './Components/PrivacyScreen'
+import { DrawerNavigator } from 'react-navigation'; 
 import { Audio } from 'expo-av';
 
 const source = {
   uri: 'http://165.22.232.151:8000'
 };
 
-export default class App extends Component {
+export class HomeScreen extends Component {
   state = {
     playingStatus: "nosound"
   };
@@ -29,8 +34,10 @@ export default class App extends Component {
   _updateScreenForSoundStatus = (status) => {
     if (status.isPlaying && this.state.playingStatus !== "playing") {
       this.setState({ playingStatus: "playing" });
+      activateKeepAwake();
     } else if (!status.isPlaying && this.state.playingStatus === "playing") {
       this.setState({ playingStatus: "paused" });
+      deactivateKeepAwake();
     }
   };
   
@@ -78,6 +85,11 @@ export default class App extends Component {
 
   render() {
     return (
+      <View style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}> 
+      <HeaderNavigationBar {...this.props} />
         <ImageBackground 
           style={styles.container} 
           source={require("./assets/voa.png")} 
@@ -89,9 +101,25 @@ export default class App extends Component {
           />
         </TouchableOpacity>
         </ImageBackground>
-    );
+        </View>);
+    }
   }
-}
+
+export default DrawerNavigator (
+    {
+      Home:{
+        screen:HomeScreen
+      },
+      About:{
+        screen:AboutScreen
+      },
+      Privacy: {
+        screen: PrivacyScreen
+      }
+    },{
+        initialRouteName:'Home'
+    }
+)
 
 const win = Dimensions.get('window');
 
@@ -100,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: undefined,
     width: undefined,
-    backgroundColor: "black"
+    backgroundColor: "#1e272c"
   },
   controlWrapper: {
     flex: 1,
