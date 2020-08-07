@@ -1,144 +1,46 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Image, Dimensions, TouchableHighlight } from 'react-native';
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
-import HeaderNavigationBar from './Components/HeaderNavigationBar';
-import AboutScreen from './Components/AboutScreen';
-import PrivacyScreen from './Components/PrivacyScreen'
-import { DrawerNavigator } from 'react-navigation'; 
-import { Audio } from 'expo-av';
+// You can import Ionicons from @expo/vector-icons if you use Expo or
+// react-native-vector-icons/Ionicons otherwise.
+import * as React from 'react';
+//import { Text, View } from 'react-native';
+import HomeScreen from './components/HomeScreen';
+import AboutScreen from './components/AboutScreen';
+import PrivacyScreen from './components/PrivacyScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
-const source = {
-  uri: 'http://165.22.232.151:8000'
-};
 
-export class HomeScreen extends Component {
-  state = {
-    playingStatus: "nosound"
-  };
-  
-  async _playRecording() {
-    const { sound, status } = await Audio.Sound.createAsync(
-      source,
-      {
-        shouldPlay: true,
-        isLooping: true,
-      },
-      this._updateScreenForSoundStatus,
-    ).catch(error => console.log('radio not reached'));
-    this.sound = sound;
-    this.setState({
-      playingStatus: 'playing'
-    });
-  }
-  
-  _updateScreenForSoundStatus = (status) => {
-    if (status.isPlaying && this.state.playingStatus !== "playing") {
-      this.setState({ playingStatus: "playing" });
-      activateKeepAwake();
-    } else if (!status.isPlaying && this.state.playingStatus === "playing") {
-      this.setState({ playingStatus: "paused" });
-      deactivateKeepAwake();
-    }
-  };
-  
-  async _pauseAndPlayRecording() {
-    if (this.sound != null) {
-      if (this.state.playingStatus == 'playing') {
-        console.log('pausing...');
-        await this.sound.pauseAsync();
-        console.log('paused!');
-        this.setState({
-          playingStatus: 'paused',
-        });
-      } else {
-        console.log('playing...');
-        await this.sound.playAsync();
-        console.log('playing!');
-        this.setState({
-          playingStatus: 'playing',
-        });
-      }
-    }
-  }
-  
-  _syncPauseAndPlayRecording() {
-    if (this.sound != null) {
-      if (this.state.playingStatus == 'playing') {
-        this.sound.pauseAsync();
-      } else {
-        this.sound.playAsync();
-      }
-    }
-  }
-  
-  _playAndPause = () => {
-    switch (this.state.playingStatus) {
-      case 'nosound':
-        this._playRecording();
-        break;
-      case 'paused':
-      case 'playing':
-        this._pauseAndPlayRecording();
-        break;
-    }
-  }
+const Tab = createBottomTabNavigator();
 
-  render() {
-    return (
-      <View style={{
-        flex: 1,
-        flexDirection: 'column',
-      }}> 
-      <HeaderNavigationBar {...this.props} />
-        <ImageBackground 
-          style={styles.container} 
-          source={require("./assets/voa.png")} 
-          resizeMode='contain'>
-        <TouchableOpacity style={styles.controlWrapper} onPress={this._playAndPause}>
-          <Image
-            style={styles.control}
-            source={ this.state.playingStatus === "playing" ? require("./assets/pause.png") : require("./assets/play.png")}
-          />
-        </TouchableOpacity>
-        </ImageBackground>
-        </View>);
-    }
-  }
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-export default DrawerNavigator (
-    {
-      Home:{
-        screen:HomeScreen
-      },
-      About:{
-        screen:AboutScreen
-      },
-      Privacy: {
-        screen: PrivacyScreen
-      }
-    },{
-        initialRouteName:'Home'
-    }
-)
+            if (route.name === 'Home') {
+              iconName = focused ? 'ios-home' : 'md-home'
+            } else if (route.name === 'About') {
+              iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
+            } else if (route.name === 'Privacy') {
+              iconName = focused ? 'ios-list-box' : 'ios-list';
+            }
 
-const win = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
-    backgroundColor: "#1e272c"
-  },
-  controlWrapper: {
-    flex: 1,
-    flexDirection: 'column-reverse',
-    alignItems: 'center',
-
-  },
-  control: {
-    width: 160,
-    height:160
-  }
-  
-});
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Privacy" component={PrivacyScreen} />
+        <Tab.Screen name="About" component={AboutScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}

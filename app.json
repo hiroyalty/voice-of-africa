@@ -4,7 +4,6 @@
     "description": "The number 1 internet radio in africa, for africa and showcassing the best of Africa.",
     "slug": "voice-of-africa",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android"
@@ -35,7 +34,7 @@
         "foregroundImage": "./assets/voa.png",
         "backgroundColor": "#171717"
       },
-      "permissions":[]
+      "permissions": []
     }
   }
 }
