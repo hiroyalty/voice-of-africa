@@ -3,6 +3,7 @@ import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
+import Layout from '../constants/Layout';
 
 
 const source = { uri: 'http://165.22.232.151:8000' };
@@ -29,7 +30,7 @@ export default class HomeScreen extends Component {
       source,
       {
         shouldPlay: true,
-        isLooping: true,
+        isLooping: false,
       },
       this._updateScreenForSoundStatus,
     ).catch(error => console.log('radio not reached'));
@@ -58,6 +59,7 @@ export default class HomeScreen extends Component {
         this.setState({
           playingStatus: 'paused',
         });
+        //deactivateKeepAwake();
       } else {
         console.log('playing...');
         await this.sound.playAsync();
@@ -65,6 +67,7 @@ export default class HomeScreen extends Component {
         this.setState({
           playingStatus: 'playing',
         });
+        //activateKeepAwake();
       }
     }
   }
@@ -73,8 +76,10 @@ export default class HomeScreen extends Component {
     if (this.sound != null) {
       if (this.state.playingStatus == 'playing') {
         this.sound.pauseAsync();
+        deactivateKeepAwake();
       } else {
         this.sound.playAsync();
+        activateKeepAwake();
       }
     }
   }
@@ -94,8 +99,9 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <TouchableOpacity style={styles.controlWrapper} onPress={this._playAndPause}>
-          <Ionicons name={this.state.playingStatus === "playing" ? 'md-pause' : 'md-play' } size={36} color={'tomato'} />
+        <Image style={styles.carousel} source={require("../assets/voa1.png")} />
+        <TouchableOpacity style={styles.controlWrapper}  onPress={this._playAndPause}>
+          <Ionicons name={this.state.playingStatus === "playing" ? 'md-pause' : 'md-play' } size={66} color={'tomato'} />
         </TouchableOpacity>
       </View>
     );
@@ -104,10 +110,13 @@ export default class HomeScreen extends Component {
   
   const styles = StyleSheet.create({
     controlWrapper: {
-      flex: 1,
+      //flex: 1,
       flexDirection: 'column-reverse',
-      alignItems: 'center',
+      //alignItems: 'center',
     },
-    
+    carousel: {
+      width: Layout.window.width - 10,
+      height: Layout.window.height / 1.5,
+    }
   });
   
