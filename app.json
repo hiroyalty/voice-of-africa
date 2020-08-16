@@ -11,6 +11,7 @@
     "version": "1.0.4",
     "orientation": "default",
     "icon": "./assets/voa.png",
+    "scheme": "voa",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

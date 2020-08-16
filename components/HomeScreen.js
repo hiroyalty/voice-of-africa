@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+//import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { withTheme } from 'react-native-paper';
 import Layout from '../constants/Layout';
+
+//import { ThemeProvider } from '@react-navigation/native';
 
 
 const source = { uri: 'http://165.22.232.151:8000' };
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   state = {
     playingStatus: "nosound"
   };
@@ -43,10 +47,10 @@ export default class HomeScreen extends Component {
   _updateScreenForSoundStatus = (status) => {
     if (status.isPlaying && this.state.playingStatus !== "playing") {
       this.setState({ playingStatus: "playing" });
-      activateKeepAwake();
+      //activateKeepAwake();
     } else if (!status.isPlaying && this.state.playingStatus === "playing") {
       this.setState({ playingStatus: "paused" });
-      deactivateKeepAwake();
+      //deactivateKeepAwake();
     }
   };
   
@@ -76,10 +80,10 @@ export default class HomeScreen extends Component {
     if (this.sound != null) {
       if (this.state.playingStatus == 'playing') {
         this.sound.pauseAsync();
-        deactivateKeepAwake();
+        //deactivateKeepAwake();
       } else {
         this.sound.playAsync();
-        activateKeepAwake();
+        //activateKeepAwake();
       }
     }
   }
@@ -98,12 +102,17 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.props.theme.colors.backdrop }}>
+      <View>
         <Image style={styles.carousel} source={require("../assets/voa1.png")} />
-        <TouchableOpacity style={styles.controlWrapper}  onPress={this._playAndPause}>
-          <Ionicons name={this.state.playingStatus === "playing" ? 'md-pause' : 'md-play' } size={66} color={'tomato'} />
+        <TouchableOpacity style={styles.controlWrapper} >
+          <Ionicons name={this.state.playingStatus === "playing" ? 'md-pause' : 'md-play' } 
+            size={46} 
+            color={this.props.theme.colors.myBlack} 
+            onPress={this._playAndPause} />
         </TouchableOpacity>
       </View>
+      </SafeAreaView>
     );
   }
 }
@@ -111,12 +120,14 @@ export default class HomeScreen extends Component {
   const styles = StyleSheet.create({
     controlWrapper: {
       //flex: 1,
+      paddingTop: 50,
       flexDirection: 'column-reverse',
-      //alignItems: 'center',
+      alignItems: 'center',
     },
     carousel: {
       width: Layout.window.width - 10,
-      height: Layout.window.height / 1.5,
+      height: Layout.window.height / 2,
     }
   });
   
+  export default withTheme(HomeScreen);
