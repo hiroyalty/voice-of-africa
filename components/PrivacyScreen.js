@@ -10,7 +10,6 @@ export default class PrivacyScreen extends Component {
             flex: 1,
             flexDirection: 'column',
         }}> 
-        <HeaderNavigationBar {...this.props} />
           <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollView}>
               <Text style={styles.mainTitle}>

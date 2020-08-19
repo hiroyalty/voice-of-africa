@@ -1,23 +1,42 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import HeaderNavigationBar from './HeaderNavigationBar'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { withTheme } from 'react-native-paper';
+import { Image } from 'react-native';
+import { Banner } from 'react-native-paper';
 
-export default class InfoScreen extends Component {
+class InfoScreen extends Component {
+  state = {
+    visible: true
+  };
     render() {
       return (
-        <View style={styles.container}> 
-          <HeaderNavigationBar {...this.props} />
-        <View style={styles.aboutView}>
-          <Text style={styles.title}>
-            Voice Of Africa Radio 
-          </Text>
-          <Text style={styles.content}>
-          VOA Radio Is Established To Promote And Propagate Authentic Afro-Centric 
-          Culture And Connect People Of Black Heritage World-Wide.
-          </Text>
-          </View>
-      </View>);
+        <SafeAreaView >
+          <Banner
+            visible={this.state.visible}
+            actions={[
+              {
+                label: 'Watch Along',
+                onPress: () => this.setState({ visible: true}),
+              },
+            ]}
+            icon={({size}) => (
+              <Image
+                source={
+                  //uri: 'https://avatars3.githubusercontent.com/u/17571969?s=400&v=4',
+                  require("../assets/voa1.png")
+                }
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            )}>
+            VOA Radio Is Established To Promote And Propagate Authentic Afro-Centric 
+            Culture And Connect People Of Black Heritage World-Wide.
+          </Banner>
+        </SafeAreaView>);
     }
 }
 
@@ -43,3 +62,5 @@ const styles = StyleSheet.create({
     margin: Constants.statusBarHeight,
   },
 })
+
+export default withTheme(InfoScreen);

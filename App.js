@@ -5,13 +5,11 @@ import { StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import { SplashScreen } from 'expo';
 import { MaterialIcons, Ionicons, MaterialCommunityIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-import { HomeStackScreen, AboutStackScreen, PrivacyStackScreen } from './navigation/StackScreens';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import TabBarIcon from './constants/TabBarIcon';
 import useLinking from './navigation/useLinking';
 
 
