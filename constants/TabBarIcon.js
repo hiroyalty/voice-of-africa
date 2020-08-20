@@ -7,7 +7,7 @@ export default function TabBarIcon(props) {
   return (
     <Icon
       name={name}
-      size={26}
+      size={30}
       style={style}
       color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
     />
