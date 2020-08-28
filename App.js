@@ -8,12 +8,15 @@ import { MaterialIcons, Ionicons, MaterialCommunityIcons,FontAwesome, Feather, A
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { VideoStackScreen } from './navigation/StackScreens';
+//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import useLinking from './navigation/useLinking';
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const theme = {
   ...DefaultTheme,
@@ -23,7 +26,8 @@ const theme = {
     primary: '#00acee',
     accent: '#f1c40f',
     backdrop: '#efebef',
-    myBlack: '#000'
+    myBlack: '#000',
+    myWhite: '#fff'
   },
 };
 
@@ -71,8 +75,11 @@ export default function App(props) {
   return (
     <PaperProvider theme={theme}>
     <SafeAreaProvider style={styles.container}>
-    <NavigationContainer>
-     <BottomTabNavigator></BottomTabNavigator>
+    <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="Home" component={BottomTabNavigator} />
+      <Stack.Screen name="Video" component={VideoStackScreen} />
+    </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaProvider>
     </PaperProvider>

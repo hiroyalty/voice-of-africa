@@ -5,18 +5,16 @@ import { Image } from 'react-native';
 import { Banner } from 'react-native-paper';
 
 class InfoScreen extends Component {
-  state = {
-    visible: true
-  };
     render() {
       return (
         <SafeAreaView>
           <Banner
-            visible={this.state.visible}
+            visible={true}
             actions={[
               {
                 label: 'Watch Along',
-                onPress: () => this.setState({ visible: true}),
+                //onPress: () => this.setState({ visible: true}),
+                onPress: () => this.props.navigation.navigate('Video'),
               },
             ]}
             icon={({size}) => (

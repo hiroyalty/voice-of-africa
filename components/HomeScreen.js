@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-//import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, View, Image, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import TabBarIcon from '../constants/TabBarIcon';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { withTheme } from 'react-native-paper';
 import Layout from '../constants/Layout';
+import LogoTitle from '../constants/LogoTitle';
 
 //import { ThemeProvider } from '@react-navigation/native';
 
@@ -13,6 +14,15 @@ import Layout from '../constants/Layout';
 const source = { uri: 'http://165.22.232.151:8000' };
 
 class HomeScreen extends Component {
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerTitle: <LogoTitle />,
+  //     headerRight: () => (
+  //       <Button onPress={() => alert('beep')} title="Update count" />
+  //     ),
+  //   }
+  // };
+
   state = {
     playingStatus: "nosound"
   };
@@ -27,7 +37,7 @@ class HomeScreen extends Component {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false
     });
-  };
+  }
   
   async _playRecording() {
     const { sound, status } = await Audio.Sound.createAsync(
@@ -101,10 +111,13 @@ class HomeScreen extends Component {
   }
 
   render() {
+      //const { navigation } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.props.theme.colors.backdrop }}>
       <View>
-        <Image style={styles.carousel} source={require("../assets/voa1.png")} />
+        <Image style={styles.carousel} 
+          source={require('../assets/voa1.png')} 
+        />
         <TouchableOpacity style={styles.controlWrapper} >
           <Ionicons name={this.state.playingStatus === "playing" ? 'md-pause' : 'md-play' } 
             size={46} 
